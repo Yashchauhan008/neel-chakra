@@ -1,0 +1,37 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Site 1", "status": "Healthy" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [72.873, 19.072],
+            [72.879, 19.072],
+            [72.879, 19.078],
+            [72.873, 19.078],
+            [72.873, 19.072]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Site 2", "status": "Degraded" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [72.885, 19.070],
+            [72.890, 19.070],
+            [72.890, 19.075],
+            [72.885, 19.075],
+            [72.885, 19.070]
+          ]
+        ]
+      }
+    }
+  ]
+}
