@@ -5,7 +5,8 @@ import "leaflet/dist/leaflet.css";
 export default function MangroveStateMap() {
   const [statesData, setStatesData] = useState(null);
   const [mangroves, setMangroves] = useState(null);
-  const [selectedState, setSelectedState] = useState("Gujarat");
+  const [selectedState, setSelectedState] = useState("Maharashtra"); // ✅ Default to Mumbai
+  const [mapType, setMapType] = useState("osm"); // 🟢 Toggle between osm/satellite
 
   // Load India states GeoJSON (only for bbox, not shown)
   useEffect(() => {
@@ -99,13 +100,25 @@ export default function MangroveStateMap() {
 
   return (
     <div style={{ height: "100vh", width: "100%" }}>
-      {/* Dropdown Selector */}
-      <div style={{ position: "absolute", top: 10, left: 10, zIndex: 1000, background: "#fff", padding: "5px" }}>
+      {/* Dropdown + Toggle Controls */}
+      <div style={{ 
+          position: "absolute", 
+          top: 10, 
+          left: 10, 
+          zIndex: 1000, 
+          background: "#fff", 
+          padding: "8px", 
+          borderRadius: "8px" 
+        }}>
         <label>Select State: </label>
-        <select value={selectedState} onChange={(e) => setSelectedState(e.target.value)}>
+        <select 
+          value={selectedState} 
+          onChange={(e) => setSelectedState(e.target.value)} 
+          style={{ marginRight: "10px" }}
+        >
           <option value="">-- Choose State --</option>
           <option value="Gujarat">Gujarat</option>
-          <option value="Maharashtra">Maharashtra</option>
+          <option value="Maharashtra">Maharashtra</option> {/* ✅ Default */}
           <option value="Goa">Goa</option>
           <option value="Karnataka">Karnataka</option>
           <option value="Kerala">Kerala</option>
@@ -114,11 +127,28 @@ export default function MangroveStateMap() {
           <option value="Odisha">Odisha</option>
           <option value="West Bengal">West Bengal</option>
         </select>
+
+        {/* 🟢 Map Type Toggle */}
+        <button onClick={() => setMapType(mapType === "osm" ? "satellite" : "osm")}>
+          Switch to {mapType === "osm" ? "Satellite 🌍" : "OSM 🗺️"}
+        </button>
       </div>
 
-      <MapContainer center={[22.5, 80]} zoom={5} style={{ height: "100%", width: "100%" }}>
-        <TileLayer attribution="&copy; OpenStreetMap contributors" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {/* ✅ Only green mangroves drawn */}
+      {/* ✅ Default center = Mumbai */}
+      <MapContainer center={[19.076, 72.8777]} zoom={10} style={{ height: "100%", width: "100%" }}>
+        {/* 🟢 Conditional Tile Layer */}
+        {mapType === "osm" ? (
+          <TileLayer
+            attribution="&copy; OpenStreetMap contributors"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+        ) : (
+          <TileLayer
+            attribution='Tiles © Esri &mdash; Esri, i-cubed, USDA, USGS'
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+          />
+        )}
+
         {mangroves && <GeoJSON data={mangroves} style={mangroveStyle} />}
       </MapContainer>
     </div>
