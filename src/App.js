@@ -1,13 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
-import MangroveMap from './MangroveMap.';
+// src/App.js
 
+import './App.css';
+// Update the import path to the new components folder
+import MaharashtraMangroveMap from './components/MaharashtraMangroveMap';
 
 function App() {
   return (
-    <>
-   <MangroveMap/>
-   </>
+    <div className="App">
+      <MaharashtraMangroveMap />
+    </div>
   );
 }
 
